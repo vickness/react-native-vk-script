@@ -1,0 +1,19 @@
+{
+  "name": "",
+  "version": "0.0.1",
+  "main": "index.js",
+  "repository": "",
+  "author": "",
+  "license": "MIT",
+  "bin": {
+    "-init": "",
+    "pack-staging": "",
+    "pack-release": "",
+    "pack-staging-ios": "",
+    "pack-release-android": "",
+    "update-staging": "",
+    "update-release": "",
+    "replace-icon": "",
+    "replace-launch": ""
+  }
+}
