@@ -2,18 +2,13 @@
 # -*- coding: UTF-8 -*-
 
 import sys
-import os
 from libs import tool
 from libs import icon
 from libs import launch
 
-# 检查输入路径
-if len(sys.argv) <= 1:
-    tool.log('缺少参数 option(icon, launch), path')
-    quit()
-
+# 检查输入参数
 if len(sys.argv) <= 2:
-    tool.log('缺少参数 path')
+    tool.log('缺少参数 option(icon, launch), path')
     quit()
 
 # 操作命令

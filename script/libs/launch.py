@@ -161,7 +161,7 @@ def check_splash_path(path):
 # 生成iOS的启动图
 def create_ios_splash(path):
 
-    tool.log('开始配置 ios splash')
+    tool.log('开始配置 iOS Splash')
 
     # 创建启动图文件夹
     if os.path.exists(iosSplashOutPutPath) is False:
@@ -201,13 +201,13 @@ def create_ios_splash(path):
     f = open(iosSplashOutPutPath + 'Contents.json', 'w')
     f.write(json.dumps(splash_content))
 
-    tool.log('iOS splash 配置完成')
+    tool.log('iOS Splash 配置完成')
 
 
 # 生成Android的启动图
 def create_android_splash(path):
 
-    tool.log('开始配置 Android splash')
+    tool.log('开始配置 Android Splash')
 
     # 获取文件夹下所有图片
     files = os.listdir(path)
@@ -268,4 +268,4 @@ def create_android_splash(path):
                     im.save(file_path, "png")
                     # print file_path
 
-    tool.log('Android splash 配置完成')
+    tool.log('Android Splash 配置完成')
