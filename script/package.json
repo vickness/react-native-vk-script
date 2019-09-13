@@ -1,19 +1,16 @@
 {
-  "name": "",
-  "version": "0.0.1",
+  "name": "react-native-vk-script",
+  "version": "0.0.6",
   "main": "index.js",
-  "repository": "",
-  "author": "",
+  "repository": "https://github.com/vickness/react-native-vk-script.git",
+  "author": "Vick",
   "license": "MIT",
   "bin": {
-    "-init": "",
-    "pack-staging": "",
-    "pack-release": "",
-    "pack-staging-ios": "",
-    "pack-release-android": "",
-    "update-staging": "",
-    "update-release": "",
-    "replace-icon": "",
-    "replace-launch": ""
+    "-init": "init.py",
+    "-pack": "pack.py",
+    "-update": "update.py",
+    "-resign": "resign.py",
+    "-image": "image.py",
+    "-run": "run.py"
   }
 }
