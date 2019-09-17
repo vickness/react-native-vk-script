@@ -6,11 +6,11 @@
   "author": "Vick",
   "license": "MIT",
   "bin": {
-    "-init": "init.py",
-    "-pack": "pack.py",
-    "-update": "update.py",
-    "-resign": "resign.py",
-    "-image": "image.py",
-    "-run": "run.py"
+    "x-init": "init.py",
+    "x-pack": "pack.py",
+    "x-update": "update.py",
+    "x-resign": "resign.py",
+    "x-image": "image.py",
+    "x-run": "run.py"
   }
 }
