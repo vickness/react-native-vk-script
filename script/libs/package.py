@@ -60,26 +60,48 @@ with open(os.path.join(workPath, "exports/script.json"), "r+") as f:
     # app渠道
     channel = data["channel"]
 
+# 检测版本号
+if len(version) <= 0:
+    print "未找到版本号，请检查 exports/script.json 文件 version 的值"
+    exit()
+
+# 检测版本号
+if len(channel) <= 0:
+    print "未找到渠道名称，请检查 exports/script.json 文件 channel 的值"
+    exit()
+
 
 def pack_android_debug():
     tool.log("Android Debug 开始打包...")
     os.system("cd android && ./gradlew clean")
-    os.system("cd android && ./gradlew assembleDebug")
-    tool.log("Android Debug 打包结束！")
+    code = os.system("cd android && ./gradlew assembleDebug")
+    if code == 0:
+        tool.log("Android Debug 打包成功")
+    else:
+        tool.log("Android Debug 打包失败")
+        quit()
 
 
 def pack_android_staging():
     tool.log("Android Staging 开始打包...")
     os.system("cd android && ./gradlew clean")
-    os.system("cd android && ./gradlew assembleStaging")
-    tool.log("Android Staging 打包结束！")
+    code = os.system("cd android && ./gradlew assembleStaging")
+    if code == 0:
+        tool.log("Android Staging 打包成功")
+    else:
+        tool.log("Android Staging 打包失败")
+        quit()
 
 
 def pack_android_release():
     tool.log("Android Release 开始打包...")
     os.system("cd android && ./gradlew clean")
-    os.system("cd android && ./gradlew assembleRelease")
-    tool.log("Android Release 打包结束！")
+    code = os.system("cd android && ./gradlew assembleRelease")
+    if code == 0:
+        tool.log("Android Release 打包成功")
+    else:
+        tool.log("Android Release 打包失败")
+        quit()
 
 
 def pack_workspace(mode):
@@ -91,49 +113,35 @@ def pack_workspace(mode):
     archive_path = os.path.join(iosPath, "build/xcarchive/%s.xcarchive" % mode)
 
     # 打包配置文件路径
-    export_options_path = os.path.join(iosPath, "exports/options/%s.plist" % mode)
+    export_options_path = os.path.join(workPath, "exports/options/%s.plist" % mode)
 
     if not os.path.isfile(export_options_path):
         tool.log("exports/options/%s.plist 文件不存在，请手动打一次包生成 ExportOptions.plist 文件，放入 exports/options 目录下" % mode)
         quit()
 
-    tool.log("iOS清理")
-    os.system("cd ios && xcodebuild clean "
-              "-project %s "
-              "-scheme %s "
-              "-configuration %s "
-              "-quiet || exit"
-              % (
-                  ios_workspace_name,
-                  ios_scheme,
-                  mode
-              ))
+    tool.log("iOS 开始清理")
+    command = "cd ios && xcodebuild clean -workspace %s -scheme %s -configuration %s -quiet || exit" % (ios_workspace_name, ios_scheme, mode)
+    tool.log(command)
+    code = os.system(command)
+    if code != 0:
+        tool.log("iOS 清理失败")
+        quit()
 
-    tool.log("iOS编译打包")
-    os.system("cd ios && xcodebuild archive "
-              "-project %s "
-              "-scheme %s "
-              "-configuration %s "
-              "-archivePath %s "
-              "-quiet || exit"
-              % (
-                  ios_workspace_name,
-                  ios_scheme,
-                  mode,
-                  archive_path
-              ))
+    tool.log("iOS 开始编译")
+    command = "cd ios && xcodebuild archive -workspace %s -scheme %s -configuration %s -archivePath %s -quiet || exit" % (ios_workspace_name, ios_scheme, mode, archive_path)
+    tool.log(command)
+    code = os.system(command)
+    if code != 0:
+        tool.log("iOS 编译失败")
+        quit()
 
-    tool.log("iOS导出ipa")
-    os.system("cd ios && xcodebuild -exportArchive "
-              "-archivePath %s "
-              "-exportPath %s "
-              "-exportOptionsPlist %s "
-              "-quiet || exit"
-              % (
-                  archive_path,
-                  export_ipa_path,
-                  export_options_path
-              ))
+    tool.log("iOS 开始打包")
+    command = "cd ios && xcodebuild -exportArchive -archivePath %s -exportPath %s -exportOptionsPlist %s -quiet || exit" % (archive_path, export_ipa_path, export_options_path)
+    tool.log(command)
+    code = os.system(command)
+    if code != 0:
+        tool.log("iOS 打包失败")
+        quit()
 
 
 def pack_project(mode):
@@ -145,49 +153,39 @@ def pack_project(mode):
     archive_path = os.path.join(iosPath, "build/xcarchive/%s.xcarchive" % mode)
 
     # 打包配置文件路径
-    export_options_path = os.path.join(iosPath, "exports/options/%s.plist" % mode)
+    export_options_path = os.path.join(workPath, "exports/options/%s.plist" % mode)
+
+    print export_ipa_path
+    print archive_path
+    print export_options_path
 
     if not os.path.isfile(export_options_path):
         tool.log("exports/options/%s.plist 文件不存在，请手动打一次包生成 ExportOptions.plist 文件，放入 exports/options 目录下" % mode)
         quit()
 
-    tool.log("iOS清理")
-    os.system("cd ios && xcodebuild clean "
-              "-project %s "
-              "-scheme %s "
-              "-configuration %s "
-              "-quiet || exit"
-              % (
-                  ios_project_name,
-                  ios_scheme,
-                  mode
-              ))
+    tool.log("iOS 开始清理")
+    command = "cd ios && xcodebuild clean -project %s -scheme %s -configuration %s -quiet || exit" % (ios_project_name, ios_scheme, mode)
+    tool.log(command)
+    code = os.system(command)
+    if code != 0:
+        tool.log("iOS 清理失败")
+        quit()
 
-    tool.log("iOS编译打包")
-    os.system("cd ios && xcodebuild archive "
-              "-project %s "
-              "-scheme %s "
-              "-configuration %s "
-              "-archivePath %s "
-              "-quiet || exit"
-              % (
-                  ios_project_name,
-                  ios_scheme,
-                  mode,
-                  archive_path
-              ))
+    tool.log("iOS 开始编译")
+    command = "cd ios && xcodebuild archive -project %s -scheme %s -configuration %s -archivePath %s -quiet || exit" % (ios_project_name, ios_scheme, mode, archive_path)
+    tool.log(command)
+    code = os.system(command)
+    if code != 0:
+        tool.log("iOS 编译失败")
+        quit()
 
-    tool.log("iOS导出ipa")
-    os.system("cd ios && xcodebuild -exportArchive "
-              "-archivePath %s "
-              "-exportPath %s "
-              "-exportOptionsPlist %s "
-              "-quiet || exit"
-              % (
-                  archive_path,
-                  export_ipa_path,
-                  export_options_path
-              ))
+    tool.log("iOS 开始打包")
+    command = "cd ios && xcodebuild -exportArchive -archivePath %s -exportPath %s -exportOptionsPlist %s -quiet || exit" % (archive_path, export_ipa_path, export_options_path)
+    tool.log(command)
+    code = os.system(command)
+    if code != 0:
+        tool.log("iOS 打包失败")
+        quit()
 
 
 def pack_ios_debug():
@@ -220,26 +218,22 @@ def remove_apps():
     os.mkdir(appFinalPath)
 
     # 遍历iOS工程路径，找ipa路径
-    for root, dirs, files in os.walk(iosAppPath, topdown=False):
-        for name in files:
-            if name.endswith(".ipa"):
-                path = os.path.join(root, name)
-                print(path)
-
-                # 重命名，并移动文件
-                if "staging" in name:
-                    new_path = "%s/%s_ios_%s_staging.ipa" % (appFinalPath, channel, version)
-                    shutil.move(path, new_path)
-                if "release" in name:
-                    new_path = "%s/%s_ios_%s_release.ipa" % (appFinalPath, channel, version)
-                    shutil.move(path, new_path)
+    for dir_name in os.listdir(iosAppPath):
+        dir_path = os.path.join(iosAppPath, dir_name)
+        for file_name in os.listdir(dir_path):
+            if file_name.endswith(".ipa"):
+                old_path = os.path.join(dir_path, file_name)
+                new_path = "%s/%s_ios_%s_%s.ipa" % (appFinalPath, channel, version, dir_name.lower())
+                # print old_path
+                # print new_path
+                shutil.move(old_path, new_path)
 
     # 遍历Android工程路径，找ipa路径
     for root, dirs, files in os.walk(androidAppPath, topdown=False):
-        for name in files:
-            if name.endswith(".apk"):
-                path = os.path.join(root, name)
+        for file_name in files:
+            if file_name.endswith(".apk"):
+                file_path = os.path.join(root, file_name)
                 # print(path)
-                shutil.move(path, appFinalPath)
+                shutil.move(file_path, appFinalPath)
 
 

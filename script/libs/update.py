@@ -29,7 +29,7 @@ with open(os.path.join(workPath, "exports/script.json"), "r+") as f:
         codePushAndroid = data["codePushAndroid"]
     except KeyError, error:
         tool.log("未找到 exports/script.json 文件的 %s" % error)
-        quit()
+        exit()
 
 # 检测版本号
 if len(version) <= 0:
@@ -41,16 +41,24 @@ def update_ios_staging():
     tool.log("开始更新 iOS Staging，版本号为：" + version)
     command = "code-push release-react %s ios -t %s" % (codePushIOS, version)
     tool.log("执行：" + command)
-    os.system(command)
-    tool.log("iOS 更新完成")
+    code = os.system(command)
+    if code == 0:
+        tool.log("iOS 更新完成")
+    else:
+        tool.log("iOS 更新失败")
+        exit()
 
 
 def update_android_staging():
     tool.log("开始更新 Android Staging，版本号为：" + version)
     command = "code-push release-react %s android -t %s" % (codePushAndroid, version)
     tool.log("执行：" + command)
-    os.system(command)
-    tool.log("Android 更新完成")
+    code = os.system(command)
+    if code == 0:
+        tool.log("Android 更新完成")
+    else:
+        tool.log("Android 更新失败")
+        exit()
 
 
 def update_ios_release():

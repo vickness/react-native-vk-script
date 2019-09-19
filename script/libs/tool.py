@@ -1,8 +1,13 @@
 #!/usr/bin/env python
 # -*- coding: UTF-8 -*-
 
+import sys
 import os
 import imghdr
+
+# 编码转化
+reload(sys)
+sys.setdefaultencoding('utf-8')
 
 
 # 输出函数
@@ -31,13 +36,13 @@ def image_size_exist(path, w, h):
     for name in files:
         # 读取图片
         file_path = os.path.join(path, name)
-        # log(file_path)
-        img_type = imghdr.what(file_path)
-        if img_type == "png":
-            image = Image.open(file_path)
-            # 检测是否存在指定尺寸的图片
-            if image.size[0] == w and image.size[1] == h:
-                image_path = file_path
+        if os.path.isfile(file_path):
+            img_type = imghdr.what(file_path)
+            if img_type == "png":
+                image = Image.open(file_path)
+                # 检测是否存在指定尺寸的图片
+                if image.size[0] == w and image.size[1] == h:
+                    image_path = file_path
 
     return image_path
 
