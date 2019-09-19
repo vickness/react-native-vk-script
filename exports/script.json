@@ -3,6 +3,5 @@
   "appBundleID": "bundleId",
   "version": "0.0.1",
   "channel": "channel",
-  "codePushIOS": "codePushName",
-  "codePushAndroid": "codePushName"
+  "codePushName": "codePushName"
 }

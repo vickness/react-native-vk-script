@@ -5,6 +5,10 @@ import sys
 from libs import tool
 from libs import package
 
+# 编码转化
+reload(sys)
+sys.setdefaultencoding('utf-8')
+
 # 检查输入参数
 if len(sys.argv) < 2:
     tool.log('缺少参数 mode(debug, staging, release), os(ios, android)')
@@ -26,6 +30,8 @@ if mode == "debug":
     else:
         package.pack_ios_debug()
         package.pack_android_debug()
+
+    package.remove_apps()
     quit()
 
 if mode == "staging":
@@ -36,6 +42,8 @@ if mode == "staging":
     else:
         package.pack_ios_staging()
         package.pack_android_staging()
+
+    package.remove_apps()
     quit()
 
 if mode == "release":
@@ -46,6 +54,8 @@ if mode == "release":
     else:
         package.pack_ios_release()
         package.pack_android_release()
+
+    package.remove_apps()
     quit()
 
 tool.log("无效的 mode，请输入 debug/staging/release")

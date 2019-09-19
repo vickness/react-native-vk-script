@@ -6,6 +6,10 @@ from libs import tool
 from libs import icon
 from libs import launch
 
+# 编码转化
+reload(sys)
+sys.setdefaultencoding('utf-8')
+
 # 检查输入参数
 if len(sys.argv) <= 2:
     tool.log('缺少参数 option(icon, launch), path')

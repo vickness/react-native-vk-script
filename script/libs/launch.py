@@ -8,6 +8,10 @@ import tool
 from PIL import Image, ImageDraw
 import imghdr
 
+# 编码转化
+reload(sys)
+sys.setdefaultencoding('utf-8')
+
 # 启动图尺寸
 iosSplashSize = [(320, 480), (640, 960), (640, 1136), (750, 1334), (828, 1792), (1125, 2436), (1242, 2208), (1242, 2688)]
 androidSplashSize = [(320, 480), (480, 800), (720, 1280), (960, 1600), (1280, 1920)]

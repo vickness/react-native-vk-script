@@ -1,7 +1,6 @@
 {
   "name": "react-native-vk-script",
-  "version": "0.0.6",
-  "main": "index.js",
+  "version": "0.0.7",
   "repository": "https://github.com/vickness/react-native-vk-script.git",
   "author": "Vick",
   "license": "MIT",
@@ -9,7 +8,7 @@
     "x-init": "init.py",
     "x-pack": "pack.py",
     "x-update": "update.py",
-    "x-resign": "resign.py",
+    "x-sign": "resign.py",
     "x-image": "image.py",
     "x-run": "run.py"
   }

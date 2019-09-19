@@ -1,11 +1,15 @@
 #!/usr/bin/env python
 # -*- coding: UTF-8 -*-
 
+import sys
 import os
 import json
 import tool
 from PIL import Image, ImageDraw
 
+# 编码转化
+reload(sys)
+sys.setdefaultencoding('utf-8')
 
 # 当前工作目录
 workPath = os.getcwd()

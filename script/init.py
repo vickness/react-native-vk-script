@@ -6,16 +6,28 @@ import os
 import shutil
 from libs import tool
 
+# 编码转化
+reload(sys)
+sys.setdefaultencoding('utf-8')
+
 # 当前工作目录
 workPath = os.getcwd()
-print workPath
+
+# 配置文件目录
+exports_path = os.path.join(workPath, "exports")
+
+# 创建 exports 文件夹
+if not os.path.exists(exports_path):
+    os.makedirs(exports_path)
+    os.makedirs("%s/apps" % exports_path)
+    os.makedirs("%s/options" % exports_path)
+    tool.log("创建 exports 目录")
 
 # 创建 script.json 文件
 json_in_path = os.path.join(sys.path[0], "libs/script.json")
-json_out_path = os.path.join(workPath, "script.json")
-print json_in_path
+json_out_path = os.path.join(exports_path, "script.json")
 if os.path.isfile(json_out_path) is False:
-    shutil.copy(json_in_path, workPath)
+    shutil.copy(json_in_path, exports_path)
     tool.log("创建 script.json 文件")
 
 # 安装图片处理库
@@ -30,4 +42,4 @@ except ImportError:
         tool.log('Image安装失败，请手动在终端执行：\'python -m pip install Image\'重新安装.')
         quit()
 
-# 安装xcode解析库
+tool.log("初始化完成")
