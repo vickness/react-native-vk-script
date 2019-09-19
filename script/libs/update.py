@@ -13,8 +13,14 @@ sys.setdefaultencoding('utf-8')
 # 当前工作目录
 workPath = os.getcwd()
 
+# json文件路径
+json_path = os.path.join(workPath, "exports/script.json")
+if os.path.isfile(json_path) is False:
+    tool.log("请先执行初始化命令: npx x-init")
+    quit()
+
 # 读取json文件
-with open(os.path.join(workPath, "exports/script.json"), "r+") as f:
+with open(json_path, "r+") as f:
     data = json.load(f)
     try:
         # 当前版本号
@@ -63,7 +69,6 @@ def update_android_staging():
 
 def update_ios_release():
     input_str = raw_input("确定发布 iOS 更新(y/n)?")
-    print input_str
     if input_str == "y":
         command = "code-push promote %s Staging Production" % codePushIOS
         tool.log("执行：" + command)
@@ -74,7 +79,7 @@ def update_ios_release():
             tool.log("iOS 发布失败")
             exit()
     else:
-        tool.log("输入错误，取消发布")
+        tool.log("取消发布")
         exit()
 
 
@@ -90,5 +95,5 @@ def update_android_release():
             tool.log("Android 发布失败")
             exit()
     else:
-        tool.log("输入错误，取消发布")
+        tool.log("取消发布")
         exit()

@@ -52,8 +52,14 @@ ios_scheme = items[0]
 # print ios_scheme
 
 
+# json文件路径
+json_path = os.path.join(workPath, "exports/script.json")
+if os.path.isfile(json_path) is False:
+    tool.log("请先执行初始化命令: npx x-init")
+    quit()
+
 # 读取json文件
-with open(os.path.join(workPath, "exports/script.json"), "r+") as f:
+with open(json_path, "r+") as f:
     data = json.load(f)
     # 当前版本号
     version = data["version"]
@@ -62,12 +68,12 @@ with open(os.path.join(workPath, "exports/script.json"), "r+") as f:
 
 # 检测版本号
 if len(version) <= 0:
-    print "未找到版本号，请检查 exports/script.json 文件 version 的值"
+    tool.log("未找到版本号，请检查 exports/script.json 文件 version 的值")
     exit()
 
 # 检测版本号
 if len(channel) <= 0:
-    print "未找到渠道名称，请检查 exports/script.json 文件 channel 的值"
+    tool.log("未找到渠道名称，请检查 exports/script.json 文件 channel 的值")
     exit()
 
 
@@ -154,10 +160,6 @@ def pack_project(mode):
 
     # 打包配置文件路径
     export_options_path = os.path.join(workPath, "exports/options/%s.plist" % mode)
-
-    print export_ipa_path
-    print archive_path
-    print export_options_path
 
     if not os.path.isfile(export_options_path):
         tool.log("exports/options/%s.plist 文件不存在，请手动打一次包生成 ExportOptions.plist 文件，放入 exports/options 目录下" % mode)
