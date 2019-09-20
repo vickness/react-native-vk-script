@@ -76,6 +76,9 @@ if len(channel) <= 0:
     tool.log("未找到渠道名称，请检查 exports/script.json 文件 channel 的值")
     exit()
 
+# 查询iOS工程info.plist路径
+info_plist_path = "%s/%s/info.plist" % (iosPath, ios_scheme)
+
 
 def pack_android_debug():
     tool.log("Android Debug 开始打包...")
@@ -222,13 +225,14 @@ def remove_apps():
     # 遍历iOS工程路径，找ipa路径
     for dir_name in os.listdir(iosAppPath):
         dir_path = os.path.join(iosAppPath, dir_name)
-        for file_name in os.listdir(dir_path):
-            if file_name.endswith(".ipa"):
-                old_path = os.path.join(dir_path, file_name)
-                new_path = "%s/%s_ios_%s_%s.ipa" % (appFinalPath, channel, version, dir_name.lower())
-                # print old_path
-                # print new_path
-                shutil.move(old_path, new_path)
+        if os.path.isdir(dir_path):
+            for file_name in os.listdir(dir_path):
+                if file_name.endswith(".ipa"):
+                    old_path = os.path.join(dir_path, file_name)
+                    new_path = "%s/%s_ios_%s_%s.ipa" % (appFinalPath, channel, version, dir_name.lower())
+                    # print old_path
+                    # print new_path
+                    shutil.move(old_path, new_path)
 
     # 遍历Android工程路径，找ipa路径
     for root, dirs, files in os.walk(androidAppPath, topdown=False):
@@ -239,3 +243,9 @@ def remove_apps():
                 shutil.move(file_path, appFinalPath)
 
 
+def update_version():
+    command = '/usr/libexec/PlistBuddy -c "Set :CFBundleShortVersionString %s" "%s"' % (version, info_plist_path)
+    code = os.system(command)
+    if code != 0:
+        tool.log("修改 iOS 工程 Version 失败")
+        quit()

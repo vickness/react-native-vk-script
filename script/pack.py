@@ -22,6 +22,10 @@ os = ""
 if len(sys.argv) > 2:
     os = sys.argv[2]
 
+# 修改iOS版本号
+package.update_version()
+
+# 开始打包
 if mode == "debug":
     if os == "ios":
         package.pack_ios_debug()
