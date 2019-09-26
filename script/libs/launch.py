@@ -13,13 +13,13 @@ reload(sys)
 sys.setdefaultencoding('utf-8')
 
 # 启动图尺寸
-iosSplashSize = [(320, 480), (640, 960), (640, 1136), (750, 1334), (828, 1792), (1125, 2436), (1242, 2208), (1242, 2688)]
-androidSplashSize = [(320, 480), (480, 800), (720, 1280), (960, 1600), (1280, 1920)]
-androidNames = ['mdpi', 'hdpi', 'xhdpi', 'xxhdpi', 'xxxhdpi']
+iosSplashSize = [(640, 960), (640, 1136), (750, 1334), (828, 1792), (1125, 2436), (1242, 2208), (1242, 2688)]
+androidSplashSize = [(540, 960), (720, 1280), (1080, 1920)]
+androidNames = ['hdpi', 'xhdpi', 'xxhdpi']
 
 
 # 必要尺寸
-splashSize = [(640, 1136), (720, 1280), (750, 1334), (828, 1792), (960, 1600), (1125, 2436), (1242, 2208), (1242, 2688), (1280, 1920)]
+splashSize = [(640, 960), (640, 1136), (720, 1280), (750, 1334), (828, 1792), (1080, 1920), (1125, 2436), (1242, 2208), (1242, 2688)]
 
 
 # 当前工作目录
@@ -111,13 +111,6 @@ splash_content = {
         {
             "orientation": "portrait",
             "idiom": "iphone",
-            "filename": "launch320x480.png",
-            "extent": "full-screen",
-            "scale": "1x"
-        },
-        {
-            "orientation": "portrait",
-            "idiom": "iphone",
             "filename": "launch640x960.png",
             "extent": "full-screen",
             "scale": "2x"
@@ -191,16 +184,6 @@ def create_ios_splash(path):
                 # 保存到路径
                 image.save(iosSplashOutPutPath + name, "png")
 
-                # 图片尺寸缩小一半，在尺寸列表中
-                if (w/2, h/2) in iosSplashSize:
-                    # 图片完整名称
-                    name = "launch%dx%d.png" % (w/2, h/2)
-                    # print name
-                    # 生成图片
-                    im = image.resize((w/2, h/2), Image.BILINEAR)
-                    # 保存到路径
-                    im.save(iosSplashOutPutPath + name, "png")
-
     # 打开文件，写入json数据
     f = open(iosSplashOutPutPath + 'Contents.json', 'w')
     f.write(json.dumps(splash_content))
@@ -253,22 +236,6 @@ def create_android_splash(path):
                     file_path = "%s/launch_screen.png" % dir_path
                     # 生成图片
                     im = image.resize((w/2, h/2), Image.BILINEAR)
-                    im.save(file_path, "png")
-                    # print file_path
-
-                # 图片尺寸缩小一半，在尺寸列表中
-                if (w/4, h/4) in androidSplashSize:
-                    index = androidSplashSize.index((w/4, h/4))
-                    # 创建不同分辨率文件夹
-                    dir_path = "%sdrawable-%s" % (androidSplashOutPutPath, androidNames[index])
-                    if os.path.exists(dir_path) is False:
-                        os.makedirs(dir_path)
-                        # print '创建 %s' % dir_path
-
-                    # 保存图片到路径
-                    file_path = "%s/launch_screen.png" % dir_path
-                    # 生成图片
-                    im = image.resize((w/4, h/4), Image.BILINEAR)
                     im.save(file_path, "png")
                     # print file_path
 

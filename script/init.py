@@ -19,9 +19,15 @@ exports_path = os.path.join(workPath, "exports")
 # 创建 exports 文件夹
 if not os.path.exists(exports_path):
     os.makedirs(exports_path)
-    os.makedirs("%s/apps" % exports_path)
-    os.makedirs("%s/options" % exports_path)
     tool.log("创建 exports 目录")
+
+app_path = os.path.join(exports_path, "apps")
+if not os.path.exists(app_path):
+    os.makedirs(app_path)
+
+option_path = os.path.join(exports_path, "options")
+if not os.path.exists(option_path):
+    os.makedirs(option_path)
 
 # 创建 script.json 文件
 json_in_path = os.path.join(sys.path[0], "libs/script.json")

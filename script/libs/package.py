@@ -151,6 +151,8 @@ def pack_workspace(mode):
     if code != 0:
         tool.log("iOS 打包失败")
         quit()
+    else:
+        tool.log("iOS 打包成功")
 
 
 def pack_project(mode):
@@ -191,6 +193,8 @@ def pack_project(mode):
     if code != 0:
         tool.log("iOS 打包失败")
         quit()
+    else:
+        tool.log("iOS 打包成功")
 
 
 def pack_ios_debug():
