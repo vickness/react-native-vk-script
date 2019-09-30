@@ -57,10 +57,8 @@ except ImportError:
 
 # 安装重签名工具
 tool.log('安装重签名工具')
-code = os.system('brew install openssl')
-if code != 0:
-    tool.log('openssl 安装失败')
-    quit()
+os.system('brew install openssl')
+os.system('brew upgrade openssl')
 
 zsign_path = "%s/zsign" % lib_path
 if os.path.isdir(zsign_path):
@@ -68,8 +66,15 @@ if os.path.isdir(zsign_path):
     shutil.rmtree(zsign_path)
 
 os.system("cd %s && git clone https://github.com/zhlynn/zsign.git" % lib_path)
-os.system('cd %s && g++ *.cpp common/*.cpp -lcrypto -I/usr/local/Cellar/openssl/1.0.2s/include -L/usr/local/Cellar/openssl/1.0.2s/lib -O3 -o resign' % zsign_path)
-shutil.copy("%s/resign" % zsign_path, lib_path)
+os.system('cd %s && g++ *.cpp common/*.cpp -lcrypto -I/usr/local/Cellar/openssl/1.0.2t/include -L/usr/local/Cellar/openssl/1.0.2t/lib -O3 -o resign' % zsign_path)
+
+resign_file_path = "%s/resign" % zsign_path
+if not os.path.isfile(resign_file_path):
+    shutil.rmtree(zsign_path)
+    tool.log('安装失败')
+    quit()
+
+shutil.copy(resign_file_path, lib_path)
 shutil.rmtree(zsign_path)
 
 tool.log("初始化完成")

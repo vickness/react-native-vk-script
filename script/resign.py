@@ -39,3 +39,5 @@ for root, dirs, files in os.walk(apps_path, topdown=False):
             command = '%s/resign -k %s -p "" -m %s -o %s -z 9 %s' % (sys.path[0], p12_path, profile_path, app_out_path, app_in_path)
             # tool.log(command)
             os.system(command)
+
+    tool.log("重签名完成")

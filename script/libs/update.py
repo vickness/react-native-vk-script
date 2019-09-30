@@ -68,6 +68,30 @@ def update_android_staging():
 
 
 def update_ios_release():
+    tool.log("开始更新 iOS Release，版本号为：" + version)
+    command = "code-push release-react %s ios -t %s -d Production" % (codePushIOS, version)
+    tool.log("执行：" + command)
+    code = os.system(command)
+    if code == 0:
+        tool.log("iOS 更新完成")
+    else:
+        tool.log("iOS 更新失败")
+        exit()
+
+
+def update_android_release():
+    tool.log("开始更新 Android Release，版本号为：" + version)
+    command = "code-push release-react %s android -t %s -d Production" % (codePushAndroid, version)
+    tool.log("执行：" + command)
+    code = os.system(command)
+    if code == 0:
+        tool.log("Android 更新完成")
+    else:
+        tool.log("Android 更新失败")
+        exit()
+
+
+def update_ios_push():
     input_str = raw_input("确定发布 iOS 更新(y/n)?")
     if input_str == "y":
         command = "code-push promote %s Staging Production" % codePushIOS
@@ -83,7 +107,7 @@ def update_ios_release():
         exit()
 
 
-def update_android_release():
+def update_android_push():
     input_str = raw_input("确定发布 Android 更新(y/n)?")
     if input_str == "y":
         command = "code-push promote %s Staging Production" % codePushAndroid
@@ -96,4 +120,36 @@ def update_android_release():
             exit()
     else:
         tool.log("取消发布")
+        exit()
+
+
+def update_android_back():
+    input_str = raw_input("是否将 Android 回滚到上个版本 (y/n)?")
+    if input_str == "y":
+        command = "code-push rollback %s Production" % codePushAndroid
+        tool.log("执行：" + command)
+        code = os.system(command)
+        if code == 0:
+            tool.log("Android 回滚完成")
+        else:
+            tool.log("Android 回滚失败")
+            exit()
+    else:
+        tool.log("取消操作")
+        exit()
+
+
+def update_ios_back():
+    input_str = raw_input("是否将 iOS 回滚到上个版本 (y/n)?")
+    if input_str == "y":
+        command = "code-push rollback %s Production" % codePushIOS
+        tool.log("执行：" + command)
+        code = os.system(command)
+        if code == 0:
+            tool.log("iOS 回滚完成")
+        else:
+            tool.log("iOS 回滚失败")
+            exit()
+    else:
+        tool.log("取消操作")
         exit()
