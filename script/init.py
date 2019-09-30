@@ -16,6 +16,9 @@ workPath = os.getcwd()
 # 配置文件目录
 exports_path = os.path.join(workPath, "exports")
 
+# 库的目录
+lib_path = sys.path[0]
+
 # 创建 exports 文件夹
 if not os.path.exists(exports_path):
     os.makedirs(exports_path)
@@ -29,8 +32,12 @@ option_path = os.path.join(exports_path, "options")
 if not os.path.exists(option_path):
     os.makedirs(option_path)
 
+sign_path = os.path.join(exports_path, "sign")
+if not os.path.exists(sign_path):
+    os.makedirs(sign_path)
+
 # 创建 script.json 文件
-json_in_path = os.path.join(sys.path[0], "libs/script.json")
+json_in_path = os.path.join(lib_path, "libs/script.json")
 json_out_path = os.path.join(exports_path, "script.json")
 if os.path.isfile(json_out_path) is False:
     shutil.copy(json_in_path, exports_path)
@@ -47,5 +54,22 @@ except ImportError:
     else:
         tool.log('Image安装失败，请手动在终端执行：\'python -m pip install Image\'重新安装.')
         quit()
+
+# 安装重签名工具
+tool.log('安装重签名工具')
+code = os.system('brew install openssl')
+if code != 0:
+    tool.log('openssl 安装失败')
+    quit()
+
+zsign_path = "%s/zsign" % lib_path
+if os.path.isdir(zsign_path):
+    # tool.log('删除路径: %s' % zsign_path)
+    shutil.rmtree(zsign_path)
+
+os.system("cd %s && git clone https://github.com/zhlynn/zsign.git" % lib_path)
+os.system('cd %s && g++ *.cpp common/*.cpp -lcrypto -I/usr/local/Cellar/openssl/1.0.2s/include -L/usr/local/Cellar/openssl/1.0.2s/lib -O3 -o resign' % zsign_path)
+shutil.copy("%s/resign" % zsign_path, lib_path)
+shutil.rmtree(zsign_path)
 
 tool.log("初始化完成")
