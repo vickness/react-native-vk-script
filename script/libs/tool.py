@@ -38,7 +38,7 @@ def image_size_exist(path, w, h):
         file_path = os.path.join(path, name)
         if os.path.isfile(file_path):
             img_type = imghdr.what(file_path)
-            if img_type == "png":
+            if img_type == "png" or img_type == "jpeg":
                 image = Image.open(file_path)
                 # 检测是否存在指定尺寸的图片
                 if image.size[0] == w and image.size[1] == h:

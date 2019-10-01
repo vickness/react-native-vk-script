@@ -14,12 +14,12 @@ sys.setdefaultencoding('utf-8')
 
 # 启动图尺寸
 iosSplashSize = [(640, 960), (640, 1136), (750, 1334), (828, 1792), (1125, 2436), (1242, 2208), (1242, 2688)]
-androidSplashSize = [(540, 960), (720, 1280), (1080, 1920)]
+androidSplashSize = [(640, 1136), (750, 1334), (1242, 2208)]
 androidNames = ['hdpi', 'xhdpi', 'xxhdpi']
 
 
 # 必要尺寸
-splashSize = [(640, 960), (640, 1136), (720, 1280), (750, 1334), (828, 1792), (1080, 1920), (1125, 2436), (1242, 2208), (1242, 2688)]
+splashSize = [(640, 960), (640, 1136), (750, 1334), (828, 1792), (1125, 2436), (1242, 2208), (1242, 2688)]
 
 
 # 当前工作目录
@@ -173,7 +173,7 @@ def create_ios_splash(path):
         file_path = os.path.join(path, file_name)
         img_type = imghdr.what(file_path)
         # 找出png格式的图片
-        if img_type == "png":
+        if img_type == "png" or img_type == "jpeg":
             image = Image.open(file_path)
             if image.size in iosSplashSize:
                 w = image.size[0]
@@ -205,7 +205,7 @@ def create_android_splash(path):
         file_path = os.path.join(path, file_name)
         img_type = imghdr.what(file_path)
         # 找出png格式的图片
-        if img_type == "png":
+        if img_type == "png" or img_type == "jpeg":
             image = Image.open(file_path)
             # 找出指定文件的位置
             if image.size in androidSplashSize:
