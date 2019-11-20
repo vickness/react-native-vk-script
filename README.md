@@ -2,7 +2,7 @@
 
 ## 安装
 
-`yarn add react-native-vk-bugly`
+`yarn add react-native-vk-script`
 
 ## 使用
 
