@@ -11,7 +11,7 @@ sys.setdefaultencoding('utf-8')
 
 # 检查输入参数
 if len(sys.argv) < 2:
-    tool.log('缺少参数 mode(staging, release, push, back), os(ios, android)')
+    tool.log('缺少参数 mode(staging, release, push, back, list), os(ios, android)')
     quit()
 
 # 操作模式
@@ -63,4 +63,13 @@ if mode == "back":
         update.update_android_back()
     quit()
 
-tool.log("无效的 mode，请输入 staging/release/push/back")
+if mode == "list":
+    if os == "ios":
+        update.update_ios_list()
+    elif os == "android":
+        update.update_android_list()
+    else:
+        tool.log("缺少参数 os(ios, android)")
+    quit()
+
+tool.log("无效的 mode，请输入 staging/release/push/back/list")

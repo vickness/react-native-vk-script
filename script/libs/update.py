@@ -153,3 +153,15 @@ def update_ios_back():
     else:
         tool.log("取消操作")
         exit()
+
+
+def update_android_list():
+    command = "code-push deployment history %s Production" % codePushAndroid
+    tool.log("执行：" + command)
+    os.system(command)
+
+
+def update_ios_list():
+    command = "code-push deployment history %s Production" % codePushIOS
+    tool.log("执行：" + command)
+    os.system(command)
