@@ -223,9 +223,6 @@ def pack_ios_release():
 
 def remove_apps():
 
-    shutil.rmtree(appFinalPath)
-    os.mkdir(appFinalPath)
-
     # 遍历iOS工程路径，找ipa路径
     for dir_name in os.listdir(iosAppPath):
         dir_path = os.path.join(iosAppPath, dir_name)
@@ -236,6 +233,8 @@ def remove_apps():
                     new_path = "%s/%s_ios_%s_%s.ipa" % (appFinalPath, channel, version, dir_name.lower())
                     # print old_path
                     # print new_path
+                    if os.path.isfile(new_path):
+                        os.remove(new_path)
                     shutil.move(old_path, new_path)
 
     # 遍历Android工程路径，找ipa路径
@@ -243,8 +242,11 @@ def remove_apps():
         for file_name in files:
             if file_name.endswith(".apk"):
                 file_path = os.path.join(root, file_name)
+                new_path = os.path.join(appFinalPath, file_name)
                 # print(path)
-                shutil.move(file_path, appFinalPath)
+                if os.path.isfile(new_path):
+                    os.remove(new_path)
+                shutil.move(file_path, new_path)
 
 
 def update_version():
