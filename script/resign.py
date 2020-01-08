@@ -18,6 +18,11 @@ if not os.path.isfile(p12_path):
     tool.log("缺少文件：exports/sign/resign.p12")
     quit()
 
+# 证书密码
+p12_pwd = sys.argv[1]
+if len(p12_pwd) <= 0:
+    p12_pwd = ""
+
 # profile路径
 profile_path = os.path.join(workPath, "exports/sign/resign.mobileprovision")
 if not os.path.isfile(profile_path):
@@ -36,7 +41,7 @@ for root, dirs, files in os.walk(apps_path, topdown=False):
             app_out_path = os.path.join(root, "re_"+name)
             # print(app_out_path)
             # 重签名
-            command = '%s/resign -k %s -p "" -m %s -o %s -z 9 %s' % (sys.path[0], p12_path, profile_path, app_out_path, app_in_path)
+            command = '%s/resign -k %s -p %s -m %s -o %s -z 9 %s' % (sys.path[0], p12_path, p12_pwd, profile_path, app_out_path, app_in_path)
             # tool.log(command)
             os.system(command)
 
