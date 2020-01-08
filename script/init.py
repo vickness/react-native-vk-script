@@ -55,26 +55,4 @@ except ImportError:
         tool.log('Image安装失败，请手动在终端执行：\'python -m pip install Image\'重新安装.')
         quit()
 
-# # 安装重签名工具
-# tool.log('安装重签名工具')
-# os.system('brew install openssl')
-# os.system('brew upgrade openssl')
-#
-# zsign_path = "%s/zsign" % lib_path
-# if os.path.isdir(zsign_path):
-#     # tool.log('删除路径: %s' % zsign_path)
-#     shutil.rmtree(zsign_path)
-#
-# os.system("cd %s && git clone https://github.com/zhlynn/zsign.git" % lib_path)
-# os.system('cd %s && g++ *.cpp common/*.cpp -lcrypto -I/usr/local/Cellar/openssl/1.0.2t/include -L/usr/local/Cellar/openssl/1.0.2t/lib -O3 -o resign' % zsign_path)
-#
-# resign_file_path = "%s/resign" % zsign_path
-# if not os.path.isfile(resign_file_path):
-#     shutil.rmtree(zsign_path)
-#     tool.log('安装失败')
-#     quit()
-#
-# shutil.copy(resign_file_path, lib_path)
-# shutil.rmtree(zsign_path)
-
 tool.log("初始化完成")
